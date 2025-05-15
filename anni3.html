@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>วันครบรอบ 3 เดือนของเรา 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Itim', cursive;
+      background: linear-gradient(to bottom right, #ffe4f0, #fff5fa);
+      padding: 30px;
+      max-width: 700px;
+      margin: auto;
+      color: #444;
+      position: relative;
+    }
+    h1 {
+      text-align: center;
+      color: #e91e63;
+      font-size: 32px;
+      margin-bottom: 30px;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 20px;
+      display: block;
+      font-size: 18px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+      resize: vertical;
+      background-color: #fff0f6;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 24px;
+      background-color: #f06292;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #ec407a;
+    }
+    .saved-msg {
+      margin-top: 15px;
+      color: green;
+      display: none;
+      font-size: 16px;
+    }
+
+    /* หัวใจลอย */
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      transform: rotate(45deg);
+      animation: floatUp 6s infinite ease-in;
+      opacity: 0.7;
+    }
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-800px) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    /* หน้าจบ */
+    #ending {
+      display: none;
+      text-align: center;
+      padding: 50px 20px;
+    }
+    #ending h2 {
+      font-size: 28px;
+      color: #d81b60;
+      margin-bottom: 20px;
+    }
+    #ending p {
+      font-size: 20px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div id="main">
+    <h1>สุขสันต์วันครบรอบ 3 เดือนนะ 💕</h1>
+
+    <form>
+      <label for="q1">1. ของขวัญชิ้นแรกที่ได้จากเค้า</label>
+      <textarea id="q1"></textarea>
+
+      <label for="q2">2. ครั้งที่เค้าทำให้เธอยิ้มได้มากที่สุด</label>
+      <textarea id="q2"></textarea>
+
+      <label for="q3">3. เค้าบอกเธอว่ารักบ่อยแค่ไหน</label>
+      <textarea id="q3"></textarea>
+
+      <button type="button" onclick="saveAnswers()">บันทึกคำตอบ</button>
+      <button type="button" onclick="downloadAnswers()">ดาวน์โหลดคำตอบ</button>
+      <div class="saved-msg" id="savedMsg">บันทึกเรียบร้อยแล้วน้า 💌</div>
+    </form>
+  </div>
+
+  <div id="ending">
+    <h2>ขอบคุณที่ตอบคำถามนะ 💞</h2>
+    <p>ทุกคำตอบของเธอคือสิ่งที่เราจะเก็บไว้อย่างดี<br>สุขสันต์วันครบรอบ 3 เดือนนะ รักมากขึ้นทุกวันเลย 💖</p>
+    <button onclick="goBack()">ย้อนกลับไปดูคำตอบ</button>
+  </div>
+
+  <!-- หัวใจลอย -->
+  <script>
+    for (let i = 0; i < 10; i++) {
+      let heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.animationDelay = Math.random() * 6 + 's';
+      document.body.appendChild(heart);
+    }
+
+    function saveAnswers() {
+      localStorage.setItem('answer_q1', document.getElementById('q1').value);
+      localStorage.setItem('answer_q2', document.getElementById('q2').value);
+      localStorage.setItem('answer_q3', document.getElementById('q3').value);
+      document.getElementById('savedMsg').style.display = 'block';
+      setTimeout(showEnding, 1000); // ไปหน้าจบหลัง 1 วิ
+    }
+
+    function downloadAnswers() {
+      const text =
+        "❤️ คำตอบวันครบรอบ 3 เดือน ❤️\n\n" +
+        "1. ของขวัญชิ้นแรกที่ได้จากเค้า:\n" + document.getElementById('q1').value + "\n\n" +
+        "2. ครั้งที่เค้าทำให้เธอยิ้มได้มากที่สุด:\n" + document.getElementById('q2').value + "\n\n" +
+        "3. เค้าบอกเธอว่ารักบ่อยแค่ไหน:\n" + document.getElementById('q3').value;
+
+      const blob = new Blob([text], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'คำตอบวันครบรอบ.txt';
+      a.click();
+
+      setTimeout(showEnding, 1000); // ไปหน้าจบหลังดาวน์โหลด
+    }
+
+    function showEnding() {
+      document.getElementById('main').style.display = 'none';
+      document.getElementById('ending').style.display = 'block';
+    }
+
+    function goBack() {
+      document.getElementById('ending').style.display = 'none';
+      document.getElementById('main').style.display = 'block';
+    }
+
+    window.onload = () => {
+      document.getElementById('q1').value = localStorage.getItem('answer_q1') || '';
+      document.getElementById('q2').value = localStorage.getItem('answer_q2') || '';
+      document.getElementById('q3').value = localStorage.getItem('answer_q3') || '';
+    };
+  </script>
+</body>
+</html>
